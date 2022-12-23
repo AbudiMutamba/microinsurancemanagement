@@ -128,12 +128,9 @@ function Dashboard({ largeContentClass }) {
     }
   }, []);
 
-  return (
-    <div className="components">
-      <Header
-        title="Welcome to Statewide Insurance."
-        subtitle="WITH YOU EVERY STEP OF THE WAY"
-      />
+    return (
+            <div className='components'>
+                <Header title="Welcome to Statewide Insurance." subtitle="WITH YOU EVERY STEP OF THE WAY" className="heading"/>
 
       <div className="componentsData">
         <div
@@ -172,4 +169,4 @@ function Dashboard({ largeContentClass }) {
   );
 }
 
-export default Dashboard;
+export default Dashboard
