@@ -13,6 +13,7 @@ import { collection, addDoc } from "firebase/firestore";
 
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { getDocs } from 'firebase/firestore'
 
 // firebase storage..
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -23,7 +24,8 @@ import Chat from "../components/messenger/Chat";
 function AddUsers({role, parent_container}) {
     const { authClaims } = useAuth()
     const addUser = httpsCallable(functions, 'addUser')
-    useEffect(() => { document.title = 'Add Users - SWICO' }, [])
+    useEffect(() => { document.title = 'Add Users - SWICO'; getOrganisations() }, [])
+    const organisationsCollectionRef = collection(db, 'organisations')
 
   const [comprehensive, setComprehensive] = useState(false);
   const [windscreen, setWindscreen] = useState(false);
@@ -41,6 +43,7 @@ function AddUsers({role, parent_container}) {
     // initialising the logs doc.
     const logCollectionRef = collection(db, "logs");
     const [ logo, setLogo ] = useState(null)
+    const [ organisations, setOrganisations ] = useState([])
     
 
     /* const checkedOrganisation = () => {
@@ -50,6 +53,13 @@ function AddUsers({role, parent_container}) {
             setShowOrganisation(false)
         }
     } */
+
+    const getOrganisations = async () => {
+        const data = await getDocs(organisationsCollectionRef)
+        const organisationArray = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        console.log("Organisations: ", organisationArray )
+        organisationArray.length === 0 ? setOrganisations(null) : setOrganisations(organisationArray)
+    }
     
 
   const [fields, handleFieldChange] = useForm({
@@ -393,10 +403,15 @@ function AddUsers({role, parent_container}) {
                             </>
                         :
                             <>
-                                {role === 'agent' && authClaims.admin &&
-                                    <Form.Group className="mb-3" >
+                                {role === 'agent' && authClaims.admin && 
+                                    <Form.Group className="my-3 px-0 categories" width="200px">
                                         <Form.Label htmlFor='name'>Assign Supervisor</Form.Label>
-                                        <Form.Control id="supervisor" placeholder="Name" required/>
+                                        <Form.Select aria-label="User role" id='category' onChange={({target: {value}}) => setPolicyType(value)} required>
+                                            <option value={""}>Name</option>
+                                            {
+                                                supervisors && supervisors?.length > 0 && supervisors.map((option, index) => <option key={index}>{option.name}</option>)
+                                            }
+                                        </Form.Select>
                                     </Form.Group>
                                 }
                                 <Form.Group className="mb-3" >
