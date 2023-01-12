@@ -2,8 +2,6 @@ import useAuth from "contexts/Auth";
 import { useToggleMenu } from "hooks";
 import { SuperAdminMenu } from "pages";
 import { SupervisorMenu } from "pages";
-import { AdminMenu } from "pages";
-import AgentMenus from "./AgentMenus";
 
 function Container({ children }) {
   const { currentUser, authClaims } = useAuth();
