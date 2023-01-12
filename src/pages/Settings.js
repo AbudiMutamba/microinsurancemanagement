@@ -30,7 +30,6 @@ function Settings({ parent_container }) {
   useEffect(() => {
     document.title = "User Profile - SWICO";
     getUserMeta();
-    console.log("something happened here");
   }, []);
   const [meta, setMeta] = useState({});
   const { currentUser, setCurrentUser } = getAuth();

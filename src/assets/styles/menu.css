@@ -200,8 +200,6 @@
 #menu_section li:hover > ul {
   display: block;
   position: absolute;
-  /* top: -50px;
-  left: 50px; */
 }
 
 #menu_section li ul li {

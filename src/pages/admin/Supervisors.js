@@ -10,7 +10,7 @@ import ClientModal from '../../components/ClientModal';
 import { MdEdit, MdDelete, MdStickyNote2 } from 'react-icons/md'
 import { ImFilesEmpty } from 'react-icons/im'
 import Loader from '../../components/Loader';
-import { addDoc, collection, onSnapshot } from 'firebase/firestore';
+import { addDoc, collection } from 'firebase/firestore';
 import useDialog from '../../hooks/useDialog';
 import { handleAllCheck } from '../../helpers/helpfulUtilities';
 import { getUsers } from '../../helpers/helpfulUtilities';
