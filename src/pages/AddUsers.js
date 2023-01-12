@@ -14,6 +14,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { getDocs } from 'firebase/firestore'
+import { getUsers } from '../helpers/helpfulUtilities'
 
 // firebase storage..
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
@@ -24,7 +25,7 @@ import Chat from "../components/messenger/Chat";
 function AddUsers({role, parent_container}) {
     const { authClaims } = useAuth()
     const addUser = httpsCallable(functions, 'addUser')
-    useEffect(() => { document.title = 'Add Users - SWICO'; getOrganisations() }, [])
+    useEffect(() => { document.title = 'Add Users - SWICO'; getOrganisations(); getSupervisors(); }, [])
     const organisationsCollectionRef = collection(db, 'organisations')
 
   const [comprehensive, setComprehensive] = useState(false);
@@ -44,6 +45,7 @@ function AddUsers({role, parent_container}) {
     const logCollectionRef = collection(db, "logs");
     const [ logo, setLogo ] = useState(null)
     const [ organisations, setOrganisations ] = useState([])
+    const [ supervisors, setSupervisors ] = useState([])
     
 
     /* const checkedOrganisation = () => {
@@ -61,6 +63,11 @@ function AddUsers({role, parent_container}) {
         organisationArray.length === 0 ? setOrganisations(null) : setOrganisations(organisationArray)
     }
     
+    const getSupervisors = () => {
+        getUsers('supervisor').then(result => {
+          result.length === 0 ? setSupervisors(null) : setSupervisors(result)
+        })
+    }
 
   const [fields, handleFieldChange] = useForm({
     user_role: role === "client" ? "Customer" : role,
@@ -79,6 +86,8 @@ function AddUsers({role, parent_container}) {
     const handleSubmit = (event) => {
         setIsLoading(true)
         event.preventDefault()
+
+        console.log("Fields: ", fields)
         if(comprehensive) fields['comprehensive'] = true
         if(mtp) fields['mtp'] = true
         if (windscreen) fields['windscreen'] = true
@@ -163,10 +172,6 @@ function AddUsers({role, parent_container}) {
                 });
             });
         }
-
-
-        
-
     }
   };
 
@@ -184,10 +189,17 @@ function AddUsers({role, parent_container}) {
                     }
                     <Form name='form3' onSubmit={handleSubmit}>
                         { role === 'supervisor' && 
-                            <Form.Group className="mb-3" >
-                                <Form.Label htmlFor='organisation'>Organisation<span className='required'>*</span></Form.Label>
-                                <Form.Control id="organisation" placeholder="organisation" onChange={handleFieldChange} required/>
-                            </Form.Group>
+                            <Row style={{marginLeft:"0"}}>
+                                <Form.Group className="my-3 px-0 categories" width="200px">
+                                    <Form.Label htmlFor='organisation'>Organisation<span className='required'>*</span></Form.Label>
+                                    <Form.Select aria-label="Organisation" id='organisation' onChange={handleFieldChange} required>
+                                        <option value={""}>Organisation</option>
+                                        {   
+                                            organisations && organisations.length > 0 && organisations.map((organisation, index) => <option key={index}>{organisation?.name}</option> )
+                                        }
+                                    </Form.Select>
+                                </Form.Group>
+                            </Row>
                         }
 
           {role === "client" && authClaims.agent && (
@@ -388,7 +400,7 @@ function AddUsers({role, parent_container}) {
                                     <Row className="mb-3">
                                         <Form.Group className='addFormGroups'>
                                             <Form.Label htmlFor='tinNumber'>Tin Number</Form.Label>
-                                            <Form.Control type="number" id="tinNumber" placeholder="Enter TIN" onChange={handleFieldChange} />
+                                            <Form.Control type="text" id="tinNumber" placeholder="Enter TIN" onChange={handleFieldChange} />
                                         </Form.Group>
                                         <Form.Group className='addFormGroups'>
                                             <Form.Label htmlFor='phone'>Phone Number <span className='required'>*</span></Form.Label>
@@ -449,7 +461,7 @@ function AddUsers({role, parent_container}) {
                                 <Row className="mb-3">
                                     <Form.Group className='addFormGroups'>
                                         <Form.Label htmlFor='tinNumber'>Tin Number</Form.Label>
-                                        <Form.Control type="number" id="tinNumber" placeholder="Enter TIN" onChange={handleFieldChange} />
+                                        <Form.Control type="text" id="tinNumber" placeholder="Enter TIN" onChange={handleFieldChange} />
                                     </Form.Group>
                                     <Form.Group className='addFormGroups'>
                                         <Form.Label htmlFor='phone'>Phone Number <span className='required'>*</span></Form.Label>

@@ -43,7 +43,6 @@ function Agents({ parent_container }) {
   const getAgents = () => {
     const listUsers = httpsCallable(functions, "listUsers");
     if (authClaims.supervisor) {
-
       listUsers()
         .then(({ data }) => {
           const myAgents = data
@@ -57,7 +56,6 @@ function Agents({ parent_container }) {
         })
         .catch();
     } else if (authClaims.admin) {
-
       listUsers()
         .then(({ data }) => {
           const mySupervisors = data
@@ -332,6 +330,11 @@ function Agents({ parent_container }) {
 
         <Modal show={open} onHide={handleClose}>
           <ClientModal singleDoc={singleDoc} handleClose={handleClose} />
+          <ClientModal
+            singleDoc={singleDoc}
+            handleClose={handleClose}
+            getUsers={getAgents}
+          />
         </Modal>
 
         <Modal show={openSticker} onHide={handleCloseSticker}>
