@@ -12,7 +12,6 @@ function Container({ children }) {
       className={largeContentClass ? "top-container-large" : `top-container`}
     >
       <div className="MenuSide">
-      <div className="MenuSide tw-z-10">
         {authClaims?.superadmin && (
           <SuperAdminMenu
             largeContentClass={largeContentClass}
@@ -37,9 +36,6 @@ function Container({ children }) {
         {authClaims?.agent && <AgentMenus />}
       </div>
       <main>{children}</main>
-        {authClaims?.agent && <AgentMenus />}
-      </div>
-      <main className="lg:px-10">{children}</main>
     </div>
   );
 }
