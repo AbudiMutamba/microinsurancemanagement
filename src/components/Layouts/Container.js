@@ -2,6 +2,7 @@ import useAuth from "contexts/Auth";
 import { useToggleMenu } from "hooks";
 import { SuperAdminMenu } from "pages";
 import { SupervisorMenu } from "pages";
+import { AdminMenu } from "pages";
 
 function Container({ children }) {
   const { currentUser, authClaims } = useAuth();
@@ -25,6 +26,7 @@ function Container({ children }) {
             maximiseMenu={maximiseMenu}
           />
         )}
+        {authClaims?.agent && <AgentMenus />}
       </div>
       <main>{children}</main>
     </div>
