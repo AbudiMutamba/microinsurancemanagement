@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useAuth from "../contexts/Auth";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate, redirect } from "react-router-dom";
 import logo from "../assets/imgs/SWICO-LOGO.png";
 import { MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { authentication, onAuthStateChange } from "../helpers/firebase";
@@ -134,6 +134,7 @@ function Login() {
             placeholder="Enter email"
             name="email"
             id="email"
+            className="px-2 py-2"
             onChange={(event) =>
               setUser({ ...user, email: event.target.value })
             }
@@ -188,8 +189,15 @@ function Login() {
           />
           <label htmlFor="checkbox">Keep me signed in</label>
         </div>
-        <div id="submit_login">
-          <input type="submit" className="btn cta" value="Login" />
+        <div
+          id="submit_login"
+          className="tw-flex tw-justify-between tw-mt-5 tw-items-end"
+        >
+          <input
+            type="submit"
+            className="tw-px-3 md:tw-px-5 tw-py-2 tw-bg-gray-900 tw-text-white tw-rounded hover:tw-bg-gray-800"
+            value="Login"
+          />
           <Link to="/forgot-password">
             <p className="tw-text-xs tw-font-light tw-text-black tw-underline">
               Forgot Password?

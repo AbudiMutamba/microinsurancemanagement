@@ -33,6 +33,14 @@ export default function App() {
         {/* <SuperAdminRoutes /> */}
         <Route path="/superadmin" element={<SuperAdminRoutes />}>
           <Route
+            index
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="dashboard"
             element={
               <PrivateRoute>
@@ -139,6 +147,14 @@ export default function App() {
         </Route>
         {/* Admin Routes */}
         <Route path="/admin">
+          <Route
+            index
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="dashboard"
             element={
@@ -288,6 +304,14 @@ export default function App() {
         {/* Supervisors  */}
         <Route path="/supervisor">
           <Route
+            index
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
             path="dashboard"
             element={
               <PrivateRoute>
@@ -411,6 +435,14 @@ export default function App() {
 
         {/* Agents  */}
         <Route path="/agent">
+          <Route
+            index
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
           <Route
             path="dashboard"
             element={
