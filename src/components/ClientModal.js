@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useState } from 'react';
 import { useForm } from '../hooks/useForm';
 
-function ClientModal({ singleDoc: {uid, ...singleDoc}, handleClose, handleFieldChange, getUsers}) {
+function ClientModal({ singleDoc , handleClose, handleFieldChange, getUsers}) {
   const [ formData, setFormData ] = useState(singleDoc)
   console.log("Form Data: ", singleDoc)
 
@@ -73,7 +73,7 @@ function ClientModal({ singleDoc: {uid, ...singleDoc}, handleClose, handleFieldC
           message: `Successfully updated agent - ${singleDoc.name.toUpperCase()} by ${authentication.currentUser.displayName}`
         })
       })
-      .catch( async () => {
+      .catch( async (error) => {
         toast.error(`Failed to update ${singleDoc.name}`, {position: "top-center"});
         await addDoc(logCollectionRef, {
           timeCreated: `${new Date().toISOString().slice(0, 10)} ${ new Date().getHours()}:${ new Date().getMinutes()}:${ new Date().getSeconds()}`,
