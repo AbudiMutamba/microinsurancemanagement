@@ -57,6 +57,31 @@ function ClientModal({ singleDoc: {uid, ...singleDoc}, handleClose, handleFieldC
     //     })
     // })
 
+    const updateUser = httpsCallable(functions, 'updateUser')
+    updateUser({
+      ...formData
+    })
+      .then(async () => {
+        console.log(event.target.name.value)
+        console.log(event.target.user_role.value)
+      })
+      .then(async () => {
+        await addDoc(logCollectionRef, {
+          timeCreated: `${new Date().toISOString().slice(0, 10)} ${ new Date().getHours()}:${ new Date().getMinutes()}:${ new Date().getSeconds()}`,
+          type: 'user update',
+          status: 'successful',
+          message: `Successfully updated agent - ${singleDoc.name.toUpperCase()} by ${authentication.currentUser.displayName}`
+        })
+      })
+      .catch( async () => {
+        toast.error(`Failed to update ${singleDoc.name}`, {position: "top-center"});
+        await addDoc(logCollectionRef, {
+          timeCreated: `${new Date().toISOString().slice(0, 10)} ${ new Date().getHours()}:${ new Date().getMinutes()}:${ new Date().getSeconds()}`,
+          type: ' user update',
+          status: 'failed',
+          message: `Failed to update agent - ${singleDoc.name.toUpperCase()} by ${authentication.currentUser.displayName}`
+        })
+    })
 
     // getUsers()
     toast.success('Successfully updated', {position: "top-center"});
@@ -77,7 +102,7 @@ function ClientModal({ singleDoc: {uid, ...singleDoc}, handleClose, handleFieldC
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "start",
-                }} >
+                }}>
                 <Form.Label htmlFor="dateReported">Date of birth</Form.Label>
                 <Form.Control
                   type="date"
