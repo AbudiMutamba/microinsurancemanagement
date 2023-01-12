@@ -7,8 +7,13 @@
     "chart.js": "^3.6.2",
     "firebase": "^9.15.0",
     "formik": "^2.2.9",
+<<<<<<< HEAD
     "moment": "^2.29.1",
     "react": "^18.2.0",
+=======
+    "moment": "^2.29.4",
+    "react": "^17.0.2",
+>>>>>>> df21f79 (update package.json)
     "react-bootstrap": "^2.7.0",
     "react-chartjs-2": "^4.0.0",
     "react-dom": "^18.2.0",
