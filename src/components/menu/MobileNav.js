@@ -87,7 +87,7 @@ export default function MobileNav({ role, user, displayName }) {
                 <ul className="nav flex-column">
                   {selected.role !== null &&
                     selected.role.map((menuItem, index) => (
-                      <ul className="nav-item" key={menuItem.number}>
+                      <ul className="nav-item" key={index}>
                         <Link
                           to={menuItem.link}
                           className={toggleActiveClassStyle(index)}
@@ -204,10 +204,15 @@ export default function MobileNav({ role, user, displayName }) {
                     <ImProfile /> My Profile
                   </Link>
                 </li>
+<<<<<<< HEAD
                 <li onClick={handleLogout} id="button1">
                   <Link>
                     <MdLogout /> Logout
                   </Link>
+=======
+                <li onClick={handleLogout}>
+                  <MdLogout /> Logout
+>>>>>>> 9c935fe (superadmin layout)
                 </li>
               </ul>
             </footer>
