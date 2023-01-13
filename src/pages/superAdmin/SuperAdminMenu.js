@@ -71,7 +71,7 @@ function SuperAdminMenu({ minimiseMenu, maximiseMenu }) {
             }}
             className="tw-relative"
           >
-            <div className="footerContext">
+            <div className="footerContext tw-w-full tw-h-full tw-flex tw-px-3 tw-py-2 tw-gap-3 tw-items-center">
               {authentication?.currentUser.photoURL !==
                 "https://firebasestorage.googleapis.com/v0/b/car-insurance-app.appspot.com/o/default-user-image.png?alt=media&token=f9f8f8e9-f8f8-4f8f-8f8f-f8f8f8f8f8f8" &&
               authentication?.currentUser.photoURL !==
@@ -99,13 +99,30 @@ function SuperAdminMenu({ minimiseMenu, maximiseMenu }) {
               </div>
             </div>
             {/* </Link> */}
-            <ul className={show ? "footerContextShow" : ""} id="contextUl">
-              <li>
-                <Link to="/superadmin/settings">
-                  <ImProfile /> My Profile
-                </Link>
-              </li>
-              <li onClick={handleLogout}>
+            <ul
+              className={
+                show
+                  ? "tw-flex tw-flex-col tw-bg-white tw-border tw-border-gray-300 tw-rounded-lg tw-text-sm tw-py-4 tw-px-2 tw-text-gray-500 tw-shadow-lg tw-absolute tw-bottom-20"
+                  : "tw-hidden"
+              }
+              id="contextUl"
+            >
+              <Link
+                to="/superadmin/settings"
+                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
+              >
+                <ImProfile /> My Profile
+              </Link>
+              <div className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded">
+                <MdSettings /> Account Settings
+              </div>
+
+              <hr class="tw-my-3 tw-border-gray-600" />
+
+              <li
+                onClick={handleLogout}
+                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
+              >
                 <MdLogout /> Logout
               </li>
             </ul>
@@ -133,18 +150,36 @@ function SuperAdminMenu({ minimiseMenu, maximiseMenu }) {
               show ? handleClose() : handleShow();
               event.stopPropagation();
             }}
+            className="tw-relative"
           >
-            <div className="footerContext">
+            <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full tw-px-3 tw-py-2 tw-gap-3">
               <DefaultAvatar />
             </div>
-            <ul className={show ? "footerContextShow" : ""} id="contextUl">
-              <li>
-                <Link to="/superadmin/settings">
-                  <ImProfile />
-                </Link>
-              </li>
-              <li onClick={handleLogout}>
-                  <MdLogout />
+            <ul
+              className={
+                show
+                  ? "tw-flex tw-flex-col tw-bg-white tw-border tw-border-gray-300 tw-w-52 tw-rounded-lg tw-text-sm tw-py-4 tw-px-2 tw-text-gray-500 tw-shadow-lg tw-absolute tw-bottom-5 tw-left-16"
+                  : "tw-hidden"
+              }
+              id="contextUl"
+            >
+              <Link
+                to="/superadmin/settings"
+                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
+              >
+                <ImProfile /> My Profile
+              </Link>
+              <div className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded">
+                <MdSettings /> Account Settings
+              </div>
+
+              <hr class="tw-my-3 tw-border-gray-600" />
+
+              <li
+                onClick={handleLogout}
+                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
+              >
+                <MdLogout /> Logout
               </li>
             </ul>
           </footer>
