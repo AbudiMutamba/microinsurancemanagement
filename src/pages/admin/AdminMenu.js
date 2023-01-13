@@ -14,7 +14,6 @@ import { Badge } from "react-bootstrap";
 import { ImProfile } from "react-icons/im";
 import useDialog from "../../hooks/useDialog";
 import useAuth from "../../contexts/Auth";
-import { MdSettings } from "react-icons/md";
 
 export default function AdminMenu({ minimiseMenu, maximiseMenu }) {
   const preferredToggleMenu =
@@ -62,68 +61,48 @@ export default function AdminMenu({ minimiseMenu, maximiseMenu }) {
             </div>
           </div>
           <SideBar role={Admin} />
-          <footer
-            className="footerContext"
-            onClick={(event) => {
-              show ? handleClose() : handleShow();
-              event.stopPropagation();
-            }}
-          >
-            <div className="footerContext tw-w-full tw-h-full tw-flex tw-px-3 tw-py-2 tw-gap-3 tw-items-center">
+          <footer>
+            {/* <Link to='/admin/settings'> */}
+            <div
+              className="footerContext"
+              onClick={(event) => {
+                show ? handleClose() : handleShow();
+                event.stopPropagation();
+              }}
+            >
               {authentication?.currentUser.photoURL !==
-                "https://firebasestorage.googleapis.com/v0/b/car-insurance-app.appspot.com/o/default-user-image.png?alt=media&token=f9f8f8e9-f8f8-4f8f-8f8f-f8f8f8f8f8f8" &&
-              authentication?.currentUser.photoURL !==
-                "https://example.com/jane-doe/photo.jpg" ? (
+              "https://firebasestorage.googleapis.com/v0/b/car-insurance-app.appspot.com/o/default-user-image.png?alt=media&token=f9f8f8e9-f8f8-4f8f-8f8f-f8f8f8f8f8f8" ? (
                 <img
                   src={authentication?.currentUser.photoURL}
-                  alt={authentication?.currentUser.displayName}
+                  alt="profile"
                   width={50}
                   height={50}
-                  className="tw-rounded-full tw-overflow-hidden"
+                  style={{ borderRadius: "50%" }}
                 />
               ) : (
                 <DefaultAvatar />
               )}
-              <div className="">
-                <p className="tw-font-medium tw-text-lg tw-m-0">
-                  <span>
-                    {(authentication?.currentUser?.displayName).split(" ")[0]}{" "}
-                  </span>
-                  <span>
-                    {(authentication?.currentUser?.displayName).split(" ")[1]}
-                  </span>
+              <div>
+                <p style={{ fontWeight: "500", fontSize: "1.05rem" }}>
+                  {authentication?.currentUser?.displayName}
                 </p>
-                <span className="tw-text-gray-400 tw-text-sm">Admin</span>
+                <p style={{ color: "#646464" }}>
+                  <Badge bg="warning">admin</Badge>
+                </p>
               </div>
+              <h3 style={{ color: "#000" }}>&hellip;</h3>
             </div>
-            <ul
-              className={
-                show
-                  ? "tw-flex tw-flex-col tw-bg-white tw-border tw-border-gray-300 tw-rounded-lg tw-text-sm tw-py-4 tw-px-2 tw-text-gray-500 tw-shadow-lg tw-absolute tw-bottom-20"
-                  : "tw-hidden"
-              }
-              id="contextUl"
-            >
-              <Link
-                to="/admin/settings"
-                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
-                onClick={() =>
-                  localStorage.setItem("onRefresh", "/admin/settings")
-                }
-              >
-                <ImProfile /> My Profile
-              </Link>
-              <div className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded">
-                <MdSettings /> Account Settings
-              </div>
-
-              <hr class="tw-my-3 tw-border-gray-600" />
-
-              <li
-                onClick={handleLogout}
-                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
-              >
-                <MdLogout /> Logout
+            {/* </Link> */}
+            <ul className={show ? "footerContextShow" : ""} id="contextUl">
+              <li>
+                <Link to="/admin/settings">
+                  <ImProfile /> My Profile
+                </Link>
+              </li>
+              <li onClick={handleLogout}>
+                <Link to="">
+                  <MdLogout /> Logout
+                </Link>
               </li>
             </ul>
           </footer>
@@ -145,44 +124,27 @@ export default function AdminMenu({ minimiseMenu, maximiseMenu }) {
             </div>
           </section>
           <MinimisedSideBar role={Admin} />
-          <footer
-            onClick={(event) => {
-              show ? handleClose() : handleShow();
-              event.stopPropagation();
-            }}
-            className="tw-relative"
-          >
-            <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-h-full tw-px-3 tw-py-2 tw-gap-3">
+          <footer>
+            <div
+              className="footerContext"
+              onClick={(event) => {
+                show ? handleClose() : handleShow();
+                event.stopPropagation();
+              }}
+            >
               <DefaultAvatar />
             </div>
-            <ul
-              className={
-                show
-                  ? "tw-flex tw-flex-col tw-bg-white tw-border tw-border-gray-300 tw-w-52 tw-rounded-lg tw-text-sm tw-py-4 tw-px-2 tw-text-gray-500 tw-shadow-lg tw-absolute tw-bottom-5 tw-left-16"
-                  : "tw-hidden"
-              }
-              id="contextUl"
-            >
-              <Link
-                to="/admin/settings"
-                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
-                onClick={() =>
-                  localStorage.setItem("onRefresh", "/admin/settings")
-                }
-              >
-                <ImProfile /> My Profile
-              </Link>
-              <div className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded">
-                <MdSettings /> Account Settings
-              </div>
-
-              <hr class="tw-my-3 tw-border-gray-600" />
-
-              <li
-                onClick={handleLogout}
-                className="tw-flex tw-hover:bg-gray-100 tw-gap-2 tw-cursor-pointer tw-items-center tw-py-3 tw-text-gray-500 hover:tw-text-gray-500 hover:tw-bg-gray-100 tw-px-5 tw-rounded"
-              >
-                <MdLogout /> Logout
+            {/* </Link> */}
+            <ul className={show ? "footerContextShow" : ""} id="contextUl">
+              <li>
+                <Link to="/admin/settings">
+                  <ImProfile />
+                </Link>
+              </li>
+              <li onClick={handleLogout}>
+                <Link to="">
+                  <MdLogout />
+                </Link>
               </li>
             </ul>
           </footer>

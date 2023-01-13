@@ -88,7 +88,7 @@ export default function MobileNav({ role, user, displayName }) {
                   {selected.role !== null &&
                     selected.role.map((menuItem, index) => (
                       <ul className="nav-item" key={index}>
-                        <NavLink
+                        <Link
                           to={menuItem.link}
                           className={({ isActive }) =>
                             isActive
@@ -132,7 +132,7 @@ export default function MobileNav({ role, user, displayName }) {
                             </span>
                           )}
                           {/* </div> */}
-                        </NavLink>
+                        </Link>
                         {subMenu === true && selectedIndex === index && (
                           <div
                             className="nav flex-column"

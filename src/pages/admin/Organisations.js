@@ -73,6 +73,17 @@ export default function Organisations({ parent_container }) {
   };
 
   console.log(organisations);
+    const data = await getDocs(organisationsCollectionRef);
+    const organisationArray = data.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+    organisationArray.length === 0
+      ? setOrganisations(null)
+      : setOrganisations(organisationArray);
+  };
+
+  console.log(organisations);
 
   const handleDelete = async (id) => {
     const organisationDoc = doc(db, "organisations", id);
@@ -94,6 +105,9 @@ export default function Organisations({ parent_container }) {
         });
       })
       .catch(async () => {
+        toast.error(`Failed to deleted organisation: ${singleDoc.name}`, {
+          position: "top-center",
+        });
         toast.error(`Failed to deleted organisation: ${singleDoc.name}`, {
           position: "top-center",
         });
@@ -181,74 +195,35 @@ export default function Organisations({ parent_container }) {
             />
           </div>
 
-          <Table bordered responsive className="mt-5">
-            <thead>
-              <tr
-                style={{
-                  borderTop: "1px solid transparent",
-                  borderLeft: "1px solid transparent",
-                  borderRight: "1px solid transparent",
-                }}
-              >
-                <th></th>
-                <th></th> <th></th>
-                <th></th>
-                <th
-                  colSpan={4}
-                  style={{ border: "1px solid #000", textAlign: "center" }}
-                >
-                  Contact Person
-                </th>
-              </tr>
-              <tr style={{ borderTop: "1px solid #000" }}>
-                <th className="text-center">Logo</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone No.</th>
-                <th style={{ borderLeft: "1px solid #000" }}>Name</th>
-                <th>Role</th>
-                <th>Phone No.</th>
-                <th style={{ borderRight: "1px solid #000" }}>Email</th>
-                <th>Action</th>
-              </tr>
-            </thead>
+        <Table bordered hover striped responsive className="mt-5">
+          <thead>
+            <tr style={{borderTop: '1px solid transparent', borderLeft: '1px solid transparent', borderRight: '1px solid transparent'}}>
+              <th></th><th></th> <th></th><th></th>
+              <th colSpan={4} style={{border: "1px solid #000", textAlign: "center"}}>Contact Person</th>
+            </tr>
+            <tr style={{borderTop: "1px solid #000"}}>
+              <th className="text-center">Logo</th><th>Name</th>
+              <th>Email</th><th>Phone No.</th>
+              <th style={{borderLeft: "1px solid #000"}}>Name</th>
+              <th>Role</th><th>Phone No.</th>
+              <th style={{borderRight: "1px solid #000"}}>Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {currentOrganisations.map((organisation, index) => (
-                <tr
-                  key={organisation.id}
-                  className={`${
-                    index % 2 === 0 ? "tw-bg-neutral-100" : "tw-bg-white"
-                  } tw-cursor-pointer hover:tw-bg-neutral-200`}
-                >
-                  <td className="text-center">
-                    <img
-                      src={organisation.logo}
-                      width={40}
-                      height={40}
-                      style={{ borderRadius: "50%" }}
-                    />
-                  </td>
-                  <td>{organisation.name}</td>
-                  <td>{organisation.org_email}</td>
-                  <td>{organisation.tel}</td>
-                  <td style={{ borderLeft: "1px solid #000" }}>
-                    {organisation.contactName}
-                  </td>
-                  <td>{organisation.role}</td>
-                  <td>{organisation.contactPhoneNumber}</td>
-                  <td style={{ borderRight: "1px solid #000" }}>
-                    {organisation.contact_email}
-                  </td>
-                  <td className="started">
-                    <button
-                      className="sharebtn"
-                      onClick={() => {
-                        setClickedIndex(index);
-                        setShowContext(!showContext);
-                        setSingleDoc(organisation);
-                      }}
-                    >
+          <tbody>
+            {currentOrganisations.map((organisation, index) => (
+              <tr key={organisation.id}>
+                <td className="text-center"><img src={organisation.logo} width={40} height={40} style={{borderRadius: "50%"}} /></td>
+                <td>{organisation.name}</td>
+                <td>{organisation.org_email}</td>
+                <td>{organisation.tel}</td>
+                <td style={{borderLeft: "1px solid #000"}}>{organisation.contactName}</td>
+                <td>{organisation.role}</td>
+                <td>{organisation.contactPhoneNumber}</td>
+                <td style={{borderRight: "1px solid #000"}}>{organisation.contact_email}</td>
+                <td className="started">
+                    <button className="sharebtn" onClick={() => {setClickedIndex(index); setShowContext(!showContext); setSingleDoc(organisation)}}>
                       &#8942;
                     </button>
 

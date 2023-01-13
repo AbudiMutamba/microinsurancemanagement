@@ -17,9 +17,8 @@ import {
 
 import Chat from "../components/messenger/Chat";
 import "../styles/ctas.css";
-import { useToggleMenu } from "hooks";
 
-function Dashboard({ largeContentClass }) {
+function Dashboard() {
   const { authClaims } = useAuth();
   const [users, setUsers] = useState([]);
   const [policies, setPolicies] = useState([]);
@@ -27,6 +26,8 @@ function Dashboard({ largeContentClass }) {
   const [claims, setClaims] = useState([]);
   const [claimsSettled, setClaimsSettled] = useState([]);
 
+
+  
   useEffect(() => {
     document.title = "Dashboard - SWICO";
 
@@ -47,6 +48,7 @@ function Dashboard({ largeContentClass }) {
       });
     } else if (authClaims.supervisor) {
       getUsers("agent").then((result) => setUsers(result));
+
 
       listUsers().then(async ({ data }) => {
         const myAgents = data
@@ -117,31 +119,61 @@ function Dashboard({ largeContentClass }) {
     } else if (authClaims.superadmin) {
       getUsers("admin").then((result) => setUsers(result));
       getAllSuperAdminStickers().then((result) => setPolicies(result));
+        const mySupervisors = data
+          .filter((user) => user.role.supervisor)
+          .filter(
+            (supervisor) =>
+              supervisor.meta.added_by_uid === authentication.currentUser.uid
+          )
+          .map((supervisoruid) => supervisoruid.uid);
 
-      getAllSuperAdminClaims().then((result) => {
-        const settledClaims = result.filter(
-          (claim) => claim.status === "settled"
-        );
-        setClaims(result);
-        setClaimsSettled(settledClaims);
+        const agentsUnderMySupervisors = data
+          .filter((user) => user.role.agent === true)
+          .filter((agent) => mySupervisors.includes(agent.meta.added_by_uid))
+          .map((agentuid) => agentuid.uid);
+
+        getAllStickers([
+          ...myAgents,
+          ...mySupervisors,
+          ...agentsUnderMySupervisors,
+          authentication.currentUser.uid,
+        ]).then((result) => setPolicies(result));
+
+        getAllClaims([
+          ...myAgents,
+          ...mySupervisors,
+          ...agentsUnderMySupervisors,
+          authentication.currentUser.uid,
+        ]).then((result) => {
+          const settledClaims = result.filter(
+            (claim) => claim.status === "settled"
+          );
+          setClaims(result);
+          setClaimsSettled(settledClaims);
+        });
       });
     }
   }, []);
 
-    return (
-            <div className='components'>
-                <Header title="Welcome to Statewide Insurance." subtitle="WITH YOU EVERY STEP OF THE WAY" className="heading"/>
+  return (
+    <div className="components">
+      <Header
+        title="Welcome to Statewide Insurance."
+        subtitle="WITH YOU EVERY STEP OF THE WAY"
+        className="heading"
+      />
 
       <div className="componentsData">
         <div
           id="first-row"
-          className={`mb-5 my-2 first-row ${
-            !largeContentClass
-              ? "tw-overflow-y-hidden tw-overflow-x-hidden"
-              : ""
-          } ${
-            users?.length > 0 ? "" : ""
-          } tw-py-1 tw-px-1 tw-flex tw-flex-col lg:tw-flex-row tw-justify-between`}
+          className={`mb-5 first-row ${
+            true ? "dashboard-cards" : "expanded-menu-dashboard-cards"
+          }`}
+          style={{
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
         >
           <FirstContainer
             claimsSettled={claimsSettled}
@@ -151,7 +183,7 @@ function Dashboard({ largeContentClass }) {
           <UsersContainer authClaims={authClaims} users={users} />
         </div>
 
-        <GraphContainer policies={policies} />
+        {/* <GraphContainer /> */}
       </div>
       <div
         style={{
@@ -169,4 +201,4 @@ function Dashboard({ largeContentClass }) {
   );
 }
 
-export default Dashboard
+export default Dashboard;
