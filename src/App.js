@@ -1,4 +1,3 @@
-import MyRouter from "./routes/MyRouter";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import {
   Login,
