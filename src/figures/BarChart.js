@@ -263,4 +263,4 @@ function BarChart({ policies }) {
 }
 
 export default BarChart;
-export default BarChart;
+

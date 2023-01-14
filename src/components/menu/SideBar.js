@@ -2,9 +2,7 @@ import "../../assets/styles/menu.css";
 import { Link, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export default function SideBar({ role, user, displayName }) {
-  const [selected, setSelected] = useState({ activeObject: null, role });
-  // const [ toggleMenu, setToggeMenu ] = useState(true)
+
 export default function SideBar({ role, user, displayName }) {
   const [selected, setSelected] = useState({ activeObject: null, role });
   // const [ toggleMenu, setToggeMenu ] = useState(true)
@@ -36,15 +34,9 @@ export default function SideBar({ role, user, displayName }) {
       : setSelected({ ...selected, activeObject: selected.role[0] });
   }, []);
 
-  const toggleActive = (index) => {
-    setSelected({ ...selected, activeObject: selected.role[index] });
-    sessionStorage.setItem("session1", selected.role[index]["number"]);
-  };
+  
 
-  const toggleActiveClassStyle = (index) =>
-    selected.role[index] === selected.activeObject
-      ? "nav-linked selected"
-      : "nav-linked";
+ 
 
   return (
     <>
