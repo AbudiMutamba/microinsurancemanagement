@@ -1,64 +1,62 @@
-import { Modal, Form, Row, Col, Button } from 'react-bootstrap'
-import { addDoc, collection } from 'firebase/firestore';
-import { functions, authentication, db } from '../helpers/firebase';
-import { httpsCallable } from 'firebase/functions';
+import { Modal, Form, Row, Col, Button } from "react-bootstrap";
+import { addDoc, collection } from "firebase/firestore";
+import { functions, authentication, db } from "../helpers/firebase";
+import { httpsCallable } from "firebase/functions";
 
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { useState } from 'react';
-import { useForm } from '../hooks/useForm';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
 
-function ClientModal({ singleDoc , handleClose,  getUsers }) {
-  const [ formData, setFormData ] = useState(singleDoc)
-  console.log("Form Data: ", singleDoc)
- 
-
-function ClientModal({ singleDoc, handleClose, handleFieldChange, getUsers }) {
-  // const auth = getAuth();
+function ClientModal({ singleDoc, handleClose, getUsers }) {
+  const [formData, setFormData] = useState(singleDoc);
+  console.log("Form Data: ", singleDoc);
 
   // initialising the logs collection.
   const logCollectionRef = collection(db, "logs");
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
-    console.log("New form information: ", formData);
 
     const updateUser = httpsCallable(functions, "updateUser");
-    console.log("update user", updateUser);
-    console.log(singleDoc);
-    updateUser({
-      uid: singleDoc.uid,
-      displayName: event.target.name.value,
-      // user_role: event.target.user_role.value,
-      supervisor: agentPromo,
-      agent: !!singleDoc.role.agent,
-    })
-      .then(async () => {})
+    updateUser(formData)
       .then(async () => {
         await addDoc(logCollectionRef, {
-          timeCreated: `${new Date().toISOString().slice(0, 10)} ${ new Date().getHours()}:${ new Date().getMinutes()}:${ new Date().getSeconds()}`,
-          type: 'user update',
-          status: 'successful',
-          message: `Successfully updated agent - ${singleDoc.name.toUpperCase()} by ${authentication.currentUser.displayName}`
-        })
+          timeCreated: `${new Date()
+            .toISOString()
+            .slice(
+              0,
+              10
+            )} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+          type: "user update",
+          status: "successful",
+          message: `Successfully updated agent - ${singleDoc.name.toUpperCase()} by ${
+            authentication.currentUser.displayName
+          }`,
+        });
       })
+      .then(getUsers)
       .catch(async (error) => {
-        console.log(error);
         toast.error(`Failed to update ${singleDoc.name}`, {
           position: "top-center",
         });
         console.log(error);
         await addDoc(logCollectionRef, {
-          timeCreated: `${new Date().toISOString().slice(0, 10)} ${ new Date().getHours()}:${ new Date().getMinutes()}:${ new Date().getSeconds()}`,
-          type: ' user update',
-          status: 'failed',
-          message: `Failed to update agent - ${singleDoc.name.toUpperCase()} by ${authentication.currentUser.displayName}`
-        })
-    })
+          timeCreated: `${new Date()
+            .toISOString()
+            .slice(
+              0,
+              10
+            )} ${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`,
+          type: " user update",
+          status: "failed",
+          message: `Failed to update agent - ${singleDoc.name.toUpperCase()} by ${
+            authentication.currentUser.displayName
+          }`,
+        });
+      });
 
-    // getUsers()
-    toast.success('Successfully updated', {position: "top-center"});
-}
+    toast.success("Successfully updated", { position: "top-center" });
+  };
 
   // handling user promotion
 
@@ -145,6 +143,7 @@ function ClientModal({ singleDoc, handleClose, handleFieldChange, getUsers }) {
               </div>
             </Form.Group>
           </Row>
+
           <Form.Group
             as={Col}
             className="addFormGroups"
@@ -168,6 +167,7 @@ function ClientModal({ singleDoc, handleClose, handleFieldChange, getUsers }) {
               }
             />
           </Form.Group>
+
           <Form.Group
             as={Col}
             className="addFormGroups"
@@ -190,6 +190,7 @@ function ClientModal({ singleDoc, handleClose, handleFieldChange, getUsers }) {
               }
             />
           </Form.Group>
+
           <Row>
             <Form.Group
               as={Col}
@@ -253,9 +254,9 @@ function ClientModal({ singleDoc, handleClose, handleFieldChange, getUsers }) {
           </Form.Group>
 
           {/* <Form.Group className="mb-3" >
-            <Form.Label htmlFor='user_role'>Role</Form.Label>
-            <Form.Control id="user_role" placeholder="Enter user role" defaultValue={singleDoc.role.agent && 'agent'}/>
-          </Form.Group> */}
+                <Form.Label htmlFor='user_role'>Role</Form.Label>
+                <Form.Control id="user_role" placeholder="Enter user role" defaultValue={singleDoc.role.agent && 'agent'}/>
+              </Form.Group> */}
         </Modal.Body>
         <Modal.Footer>
           <Button

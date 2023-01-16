@@ -1,23 +1,24 @@
-import { Link } from 'react-router-dom'
-import { useEffect, useState } from 'react'
-import Pagination from '../../helpers/Pagination';
-import SearchBar from '../../components/searchBar/SearchBar';
-import Header from '../../components/header/Header';
-import { functions, authentication, db } from '../../helpers/firebase';
-import { httpsCallable } from 'firebase/functions';
-import { Table, Modal, Form } from 'react-bootstrap'
-import ClientModal from '../../components/ClientModal';
-import { MdEdit, MdDelete, MdStickyNote2 } from 'react-icons/md'
-import { ImFilesEmpty } from 'react-icons/im'
-import Loader from '../../components/Loader';
-import { addDoc, collection } from 'firebase/firestore';
-import useDialog from '../../hooks/useDialog';
-import { handleAllCheck } from '../../helpers/helpfulUtilities';
-import { getUsers } from '../../helpers/helpfulUtilities';
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import Chat from '../../components/messenger/Chat' 
-import SupervisorDetails from '../../components/SupervisorDetails';
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Pagination from "../../helpers/Pagination";
+import SearchBar from "../../components/searchBar/SearchBar";
+import Header from "../../components/header/Header";
+import { functions, authentication, db } from "../../helpers/firebase";
+import { httpsCallable } from "firebase/functions";
+import { Table, Modal, Form } from "react-bootstrap";
+import ClientModal from "../../components/ClientModal";
+import { MdEdit, MdDelete, MdStickyNote2 } from "react-icons/md";
+import { ImFilesEmpty } from "react-icons/im";
+import Loader from "../../components/Loader";
+import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import useDialog from "../../hooks/useDialog";
+import { handleAllCheck } from "../../helpers/helpfulUtilities";
+import { getUsers } from "../../helpers/helpfulUtilities";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Chat from "../../components/messenger/Chat";
+import SupervisorDetails from "../../components/SupervisorDetails";
+import useAuth from "contexts/Auth";
 
 import "../../styles/ctas.css";
 
@@ -33,10 +34,10 @@ function Supervisors({ parent_container }) {
   // get Supervisors
   const [supervisors, setSupervisors] = useState([]);
   const getSupervisors = () => {
-    getUsers('supervisor').then(result => {
-      result.length === 0 ? setSupervisors(null) : setSupervisors(result)
-    })
-  }
+    getUsers("supervisor", authClaims?.superadmin).then((result) => {
+      result.length === 0 ? setSupervisors(null) : setSupervisors(result);
+    });
+  };
 
   const [singleDoc, setSingleDoc] = useState({});
   const [show, setShow] = useState(false);

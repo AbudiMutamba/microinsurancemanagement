@@ -18,17 +18,8 @@ function Login() {
 
   const { currentUser, setCurrentUser, authClaims, setAuthClaims } = useAuth();
   const [error, setError] = useState("");
-  const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(false);
 
-  const pageOnRefreshSuperAdmin =
-    localStorage.getItem("onRefresh") || "/superadmin/dashboard";
-  const pageOnRefreshAdmin =
-    localStorage.getItem("onRefresh") || "/admin/dashboard";
-  const pageOnRefreshSupervisor =
-    localStorage.getItem("onRefresh") || "/supervisor/dashboard";
-  const pageOnRefreshAgent =
-    localStorage.getItem("onRefresh") || "/agent/dashboard";
   const pageOnRefreshSuperAdmin =
     localStorage.getItem("onRefresh") || "/superadmin/dashboard";
   const pageOnRefreshAdmin =
@@ -55,9 +46,6 @@ function Login() {
         authentication,
         email,
         password
-        authentication,
-        email,
-        password
       );
       console.log(result);
       console.log("authclaims: ", authClaims);
@@ -78,16 +66,9 @@ function Login() {
       }
     } catch (err) {
       setLoading(false);
-    } catch (err) {
-      setLoading(false);
       const errors = {
         "auth/user-not-found": `User with ${email} is not found`,
         "auth/wrong-password": "Password does not match the email",
-        "auth/network-request-failed":
-          "something is wrong, check your network connection",
-      };
-      setError(errors[err.code]);
-    }
         "auth/network-request-failed":
           "something is wrong, check your network connection",
       };
@@ -100,22 +81,13 @@ function Login() {
   if (currentUser?.loggedIn) {
     if (authClaims.admin) {
       return <Navigate to={{ pathname: pageOnRefreshAdmin }} />;
-  if (currentUser?.loggedIn) {
-    if (authClaims.admin) {
-      return <Navigate to={{ pathname: pageOnRefreshAdmin }} />;
     }
-    if (authClaims.agent) {
-      return <Navigate to={{ pathname: pageOnRefreshAgent }} />;
     if (authClaims.agent) {
       return <Navigate to={{ pathname: pageOnRefreshAgent }} />;
     }
     if (authClaims.supervisor) {
       return <Navigate to={{ pathname: pageOnRefreshSupervisor }} />;
-    if (authClaims.supervisor) {
-      return <Navigate to={{ pathname: pageOnRefreshSupervisor }} />;
     }
-    if (authClaims.superadmin) {
-      return <Navigate to={{ pathname: pageOnRefreshSuperAdmin }} />;
     if (authClaims.superadmin) {
       return <Navigate to={{ pathname: pageOnRefreshSuperAdmin }} />;
     }
@@ -138,8 +110,6 @@ function Login() {
             onChange={(event) =>
               setUser({ ...user, email: event.target.value })
             }
-            required
-          />
             required
           />
         </div>

@@ -73,17 +73,6 @@ export default function Organisations({ parent_container }) {
   };
 
   console.log(organisations);
-    const data = await getDocs(organisationsCollectionRef);
-    const organisationArray = data.docs.map((doc) => ({
-      ...doc.data(),
-      id: doc.id,
-    }));
-    organisationArray.length === 0
-      ? setOrganisations(null)
-      : setOrganisations(organisationArray);
-  };
-
-  console.log(organisations);
 
   const handleDelete = async (id) => {
     const organisationDoc = doc(db, "organisations", id);
@@ -105,9 +94,6 @@ export default function Organisations({ parent_container }) {
         });
       })
       .catch(async () => {
-        toast.error(`Failed to deleted organisation: ${singleDoc.name}`, {
-          position: "top-center",
-        });
         toast.error(`Failed to deleted organisation: ${singleDoc.name}`, {
           position: "top-center",
         });
@@ -195,7 +181,7 @@ export default function Organisations({ parent_container }) {
             />
           </div>
 
-          <Table bordered hover striped responsive className="mt-5">
+          <Table bordered responsive className="mt-5">
             <thead>
               <tr
                 style={{

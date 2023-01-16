@@ -3,6 +3,7 @@ import { useToggleMenu } from "hooks";
 import { SuperAdminMenu } from "pages";
 import { SupervisorMenu } from "pages";
 import { AdminMenu } from "pages";
+import AgentMenus from "./AgentMenus";
 
 function Container({ children }) {
   const { currentUser, authClaims } = useAuth();
@@ -11,9 +12,16 @@ function Container({ children }) {
     <div
       className={largeContentClass ? "top-container-large" : `top-container`}
     >
-      <div className="MenuSide">
+      <div className="MenuSide tw-z-10">
         {authClaims?.superadmin && (
           <SuperAdminMenu
+            largeContentClass={largeContentClass}
+            minimiseMenu={minimiseMenu}
+            maximiseMenu={maximiseMenu}
+          />
+        )}
+        {authClaims?.admin && (
+          <AdminMenu
             largeContentClass={largeContentClass}
             minimiseMenu={minimiseMenu}
             maximiseMenu={maximiseMenu}
@@ -28,7 +36,7 @@ function Container({ children }) {
         )}
         {authClaims?.agent && <AgentMenus />}
       </div>
-      <main>{children}</main>
+      <main className="lg:px-10">{children}</main>
     </div>
   );
 }
